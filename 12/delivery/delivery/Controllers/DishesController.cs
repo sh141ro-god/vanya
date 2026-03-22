@@ -48,8 +48,8 @@ namespace delivery.Controllers
         // GET: Dishes/Create
         public IActionResult Create()
         {
-            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "DishCategoryId");
-            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "RestaurantId");
+            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "Name");
+            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "Name");
             return View();
         }
 
@@ -66,8 +66,8 @@ namespace delivery.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "DishCategoryId", dish.DishCategory);
-            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "RestaurantId", dish.Restaurant);
+            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "Name", dish.DishCategory);
+            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "Name", dish.Restaurant);
             return View(dish);
         }
 
@@ -84,8 +84,8 @@ namespace delivery.Controllers
             {
                 return NotFound();
             }
-            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "DishCategoryId", dish.DishCategory);
-            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "RestaurantId", dish.Restaurant);
+            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "Name", dish.DishCategory);
+            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "Name", dish.Restaurant);
             return View(dish);
         }
 
@@ -121,8 +121,8 @@ namespace delivery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "DishCategoryId", dish.DishCategory);
-            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "RestaurantId", dish.Restaurant);
+            ViewData["DishCategory"] = new SelectList(_context.DishCategories, "DishCategoryId", "Name", dish.DishCategory);
+            ViewData["Restaurant"] = new SelectList(_context.Restaurants, "RestaurantId", "Name", dish.Restaurant);
             return View(dish);
         }
 

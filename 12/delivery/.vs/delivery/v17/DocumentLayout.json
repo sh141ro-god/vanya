@@ -3,8 +3,44 @@
   "WorkspaceRootPath": "C:\\off\\vanya\\12\\delivery\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\dishes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\dishes\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\dishes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\dishes\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\dishes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\dishes\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\controllers\\dishescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\controllers\\dishescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\dishes\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\dishes\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\models\\dish.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -13,14 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\clients\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\clients\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,24 +58,108 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Client.cs",
               "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Client.cs",
               "RelativeDocumentMoniker": "delivery\\Models\\Client.cs",
               "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Client.cs",
               "RelativeToolTip": "delivery\\Models\\Client.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-22T10:20:45.265Z",
               "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T19:15:46.705Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Delete.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Dishes\\Delete.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Delete.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Dishes\\Delete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T19:10:18.083Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Details.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Dishes\\Details.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Details.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Dishes\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T19:10:17.486Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Index.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Dishes\\Index.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Index.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Dishes\\Index.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAjwCUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T18:56:53.404Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Create.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Dishes\\Create.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Dishes\\Create.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Dishes\\Create.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T18:56:17.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DishesController.cs",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Controllers\\DishesController.cs",
+              "RelativeDocumentMoniker": "delivery\\Controllers\\DishesController.cs",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Controllers\\DishesController.cs",
+              "RelativeToolTip": "delivery\\Controllers\\DishesController.cs",
+              "ViewState": "AgIAAJcAAAAAAAAAAAAzwHwAAABfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T18:56:05.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Dish.cs",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Dish.cs",
+              "RelativeDocumentMoniker": "delivery\\Models\\Dish.cs",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Dish.cs",
+              "RelativeToolTip": "delivery\\Models\\Dish.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T18:48:32.177Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "delivery\\Controllers\\AccountController.cs",
@@ -55,12 +167,11 @@
               "RelativeToolTip": "delivery\\Controllers\\AccountController.cs",
               "ViewState": "AgIAACwAAAAAAAAAAAAwwDwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T14:31:57.146Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-22T14:31:57.146Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 11,
               "Title": "Create.cshtml",
               "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Clients\\Create.cshtml",
               "RelativeDocumentMoniker": "delivery\\Views\\Clients\\Create.cshtml",
@@ -72,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "site.css",
               "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\wwwroot\\css\\site.css",
               "RelativeDocumentMoniker": "delivery\\wwwroot\\css\\site.css",
@@ -84,15 +195,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "delivery\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "delivery\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAwDkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABgAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-22T12:26:00.346Z"
+              "WhenOpened": "2026-03-22T12:26:00.346Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,9 +24,11 @@ public partial class Dish
     [Display(Name = "Цена")]
     public int Cost { get; set; }
 
+    [ValidateNever]
     public virtual DishCategory? DishCategoryNavigation { get; set; }
 
     public virtual ICollection<OrderPart> OrderParts { get; set; } = new List<OrderPart>();
 
+    [ValidateNever]
     public virtual Restaurant RestaurantNavigation { get; set; } = null!;
 }

@@ -1,8 +1,3 @@
--- ============================================================
---  1. Role
---     Независимый справочник.
---     Удалить роль нельзя, пока есть сотрудники с ней.
--- ============================================================
 CREATE TABLE Role (
     Role_ID     INT             NOT NULL IDENTITY(1,1),
     Name        VARCHAR(25)     NOT NULL,
@@ -13,14 +8,10 @@ CREATE TABLE Role (
 );
 GO
 
--- ============================================================
---  2. Employees
---     -> Role: SET NULL — роль удалили, сотрудник остаётся
--- ============================================================
 CREATE TABLE Employees (
     Employees_ID    INT             NOT NULL IDENTITY(1,1),
     Name            VARCHAR(25)     NOT NULL,
-    Password        VARCHAR(256)     NOT NULL,
+    Password        VARCHAR(256)    NOT NULL,
     Role            INT                 NULL,
     Login           VARCHAR(25)     NOT NULL,
 
@@ -30,14 +21,10 @@ CREATE TABLE Employees (
     CONSTRAINT FK_Employees_Role
         FOREIGN KEY (Role) REFERENCES Role (Role_ID)
         ON DELETE SET NULL
-        ON UPDATE CASCADE
+        ON UPDATE NO ACTION
 );
 GO
 
--- ============================================================
---  3. Client
---     Удалить клиента нельзя, пока есть его заказы.
--- ============================================================
 CREATE TABLE Client (
     Client_ID   INT             NOT NULL IDENTITY(1,1),
     Name        VARCHAR(25)     NOT NULL,
@@ -50,10 +37,6 @@ CREATE TABLE Client (
 );
 GO
 
--- ============================================================
---  4. OrderStatus
---     Удалить статус нельзя, пока он используется в заказах.
--- ============================================================
 CREATE TABLE OrderStatus (
     OrderStatus_ID  INT             NOT NULL IDENTITY(1,1),
     Name            VARCHAR(25)     NOT NULL,
@@ -64,24 +47,16 @@ CREATE TABLE OrderStatus (
 );
 GO
 
--- ============================================================
---  5. Restaurant
---     Удалить ресторан нельзя, пока есть его блюда.
--- ============================================================
 CREATE TABLE Restaurant (
     Restaurant_ID   INT             NOT NULL IDENTITY(1,1),
     Name            VARCHAR(25)     NOT NULL,
-    Numder          VARCHAR(12)         NULL,   -- опечатка из схемы сохранена
+    Numder          VARCHAR(12)         NULL,
     Address         VARCHAR(50)         NULL,
 
     CONSTRAINT PK_Restaurant PRIMARY KEY (Restaurant_ID)
 );
 GO
 
--- ============================================================
---  6. DishCategory
---     Удалить категорию можно — блюдо останется без категории.
--- ============================================================
 CREATE TABLE DishCategory (
     DishCategory_ID INT             NOT NULL IDENTITY(1,1),
     Name            VARCHAR(25)     NOT NULL,
@@ -92,13 +67,6 @@ CREATE TABLE DishCategory (
 );
 GO
 
--- ============================================================
---  7. Dish
---     -> Restaurant:   NO ACTION — нельзя удалить ресторан
---                      пока есть его блюда
---     -> DishCategory: SET NULL  — категорию удалили,
---                      блюдо остаётся без категории
--- ============================================================
 CREATE TABLE Dish (
     Dish_ID         INT             NOT NULL IDENTITY(1,1),
     Name            VARCHAR(25)     NOT NULL,
@@ -113,29 +81,20 @@ CREATE TABLE Dish (
     CONSTRAINT FK_Dish_Restaurant
         FOREIGN KEY (Restaurant) REFERENCES Restaurant (Restaurant_ID)
         ON DELETE NO ACTION
-        ON UPDATE CASCADE,
+        ON UPDATE NO ACTION,
 
     CONSTRAINT FK_Dish_DishCategory
         FOREIGN KEY (DishCategory) REFERENCES DishCategory (DishCategory_ID)
         ON DELETE SET NULL
-        ON UPDATE CASCADE
+        ON UPDATE NO ACTION
 );
 GO
 
--- ============================================================
---  8. Order
---     -> Employees:  SET NULL  — сотрудник уволен,
---                    история заказов сохраняется
---     -> Client:     NO ACTION — нельзя удалить клиента
---                    пока есть его заказы
---     -> OrderStatus: NO ACTION — нельзя удалить
---                    используемый статус
--- ============================================================
 CREATE TABLE [Order] (
     Order_ID    INT             NOT NULL IDENTITY(1,1),
     Employee    INT                 NULL,
-    Client      INT             NOT NULL,
-    Status      INT             NOT NULL,
+    Client      INT                 NULL,
+    Status      INT                 NULL,
     Address     VARCHAR(50)     NOT NULL,
     Cost        INT                 NULL,
 
@@ -145,27 +104,20 @@ CREATE TABLE [Order] (
     CONSTRAINT FK_Order_Employee
         FOREIGN KEY (Employee) REFERENCES Employees (Employees_ID)
         ON DELETE SET NULL
-        ON UPDATE CASCADE,
+        ON UPDATE NO ACTION,
 
     CONSTRAINT FK_Order_Client
         FOREIGN KEY (Client) REFERENCES Client (Client_ID)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE,
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION,
 
     CONSTRAINT FK_Order_Status
         FOREIGN KEY (Status) REFERENCES OrderStatus (OrderStatus_ID)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE
+        ON DELETE SET NULL
+        ON UPDATE NO ACTION
 );
 GO
 
--- ============================================================
---  9. OrderPart — связующая Order <-> Dish
---     -> Order: CASCADE  — удалили заказ,
---               позиции удаляются автоматически
---     -> Dish:  NO ACTION — нельзя удалить блюдо,
---               пока оно есть в заказах
--- ============================================================
 CREATE TABLE OrderPart (
     Dish_ID     INT     NOT NULL,
     Order_ID    INT     NOT NULL,
@@ -179,99 +131,11 @@ CREATE TABLE OrderPart (
     CONSTRAINT FK_OrderPart_Dish
         FOREIGN KEY (Dish_ID) REFERENCES Dish (Dish_ID)
         ON DELETE NO ACTION
-        ON UPDATE CASCADE,
+        ON UPDATE NO ACTION,
 
     CONSTRAINT FK_OrderPart_Order
         FOREIGN KEY (Order_ID) REFERENCES [Order] (Order_ID)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE NO ACTION
 );
-GO
-
-
--- ============================================================
---  ТЕСТОВЫЕ ДАННЫЕ
--- ============================================================
-
-INSERT INTO Role (Name, Description) VALUES
-    ('Роль1', 'Описание1'),
-    ('Роль2', 'Описание2'),
-    ('Роль3', 'Описание3');
-
-INSERT INTO Employees (Name, Password, Role, Login) VALUES
-    ('Admin', '27aefa51a21aebac77d9b1a193926987ab2d3822758a21b12d68e487a9c41b15', 1, 'Admin');
-INSERT INTO Client (Name, Number, Address, Email) VALUES
-    ('Клиент1', 'Телефон1', 'Адрес1', 'email1@mail.ru'),
-    ('Клиент2', 'Телефон2', 'Адрес2', 'email2@mail.ru'),
-    ('Клиент3', 'Телефон3', 'Адрес3', 'email3@mail.ru');
-
-INSERT INTO OrderStatus (Name, Description) VALUES
-    ('Статус1', 'Описание1'),
-    ('Статус2', 'Описание2'),
-    ('Статус3', 'Описание3');
-
-INSERT INTO Restaurant (Name, Numder, Address) VALUES
-    ('Ресторан1', 'Телефон1', 'Адрес1'),
-    ('Ресторан2', 'Телефон2', 'Адрес2'),
-    ('Ресторан3', 'Телефон3', 'Адрес3');
-
-INSERT INTO DishCategory (Name, Description) VALUES
-    ('Категория1', 'Описание1'),
-    ('Категория2', 'Описание2'),
-    ('Категория3', 'Описание3');
-
-INSERT INTO Dish (Name, Restaurant, Description, DishCategory, Cost) VALUES
-    ('Блюдо1', 1, 'Описание1', 1, 100),
-    ('Блюдо2', 2, 'Описание2', 2, 200),
-    ('Блюдо3', 3, 'Описание3', 3, 300);
-
-INSERT INTO [Order] (Employee, Client, Status, Address, Cost) VALUES
-    (1, 1, 1, 'Адрес1', 100),
-    (1, 2, 2, 'Адрес2', 200),
-    (1, 3, 3, 'Адрес3', 300);
-
-INSERT INTO OrderPart (Dish_ID, Order_ID, Count, Cost) VALUES
-    (1, 1, 1, 100),
-    (2, 2, 2, 200),
-    (3, 3, 3, 300);
-GO
-
-
--- ============================================================
---  ПРОВЕРОЧНЫЕ ЗАПРОСЫ
--- ============================================================
-
--- Все заказы с клиентом, статусом, сотрудником
-SELECT
-    o.Order_ID,
-    c.Name      AS Client,
-    os.Name     AS Status,
-    e.Name      AS Employee,
-    o.Address,
-    o.Cost
-FROM [Order] o
-JOIN Client      c  ON c.Client_ID       = o.Client
-JOIN OrderStatus os ON os.OrderStatus_ID = o.Status
-LEFT JOIN Employees e ON e.Employees_ID  = o.Employee;
-
--- Состав заказов
-SELECT
-    op.Order_ID,
-    d.Name      AS Dish,
-    op.Count,
-    op.Cost
-FROM OrderPart op
-JOIN Dish d ON d.Dish_ID = op.Dish_ID
-ORDER BY op.Order_ID;
-
--- Меню по ресторанам
-SELECT
-    r.Name      AS Restaurant,
-    dc.Name     AS Category,
-    d.Name      AS Dish,
-    d.Cost
-FROM Dish d
-JOIN Restaurant  r  ON r.Restaurant_ID   = d.Restaurant
-LEFT JOIN DishCategory dc ON dc.DishCategory_ID = d.DishCategory
-ORDER BY r.Name, dc.Name;
 GO
