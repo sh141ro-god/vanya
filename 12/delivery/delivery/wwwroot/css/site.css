@@ -1,0 +1,67 @@
+:root {
+    --green-bright: #1e7e34;
+    --green-dark: #1a3d1f;
+    --green-cream: #f2f0e8;
+    --green-sage: #7a8c6e;
+    --green-light: #e8f0e5;
+}
+
+
+.navbar {
+    background-color: var(--green-dark) !important;
+}
+
+.navbar-brand {
+    color: var(--green-cream) !important;
+}
+
+.nav-link {
+    color: #b8c9b0 !important;
+}
+
+    .nav-link:hover {
+        color: var(--green-cream) !important;
+    }
+
+
+body {
+    background-color: var(--green-cream);
+}
+
+
+.btn-primary {
+    background-color: var(--green-bright);
+    border-color: var(--green-bright);
+}
+
+    .btn-primary:hover {
+        background-color: #166428;
+        border-color: #166428;
+    }
+
+
+.table thead th {
+    background-color: var(--green-dark);
+    color: var(--green-cream);
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--green-light);
+}
+
+
+.form-control:focus {
+    border-color: var(--green-bright);
+    box-shadow: 0 0 0 2px rgba(30,126,52,0.2);
+}
+
+
+a {
+    color: var(--green-bright);
+}
+
+
+.footer {
+    background-color: var(--green-dark);
+    color: var(--green-sage);
+}

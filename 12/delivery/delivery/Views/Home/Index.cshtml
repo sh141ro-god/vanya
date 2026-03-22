@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<h1>Главная страница</h1>
+
+<p>Вы вошли как: <strong>@ViewBag.UserName</strong></p>
+
+<h3>Меню:</h3>
+<ul>
+    <li><a asp-controller="Clients" asp-action="Index">Клиенты</a></li>
+    <li><a asp-controller="DishCategories" asp-action="Index">Категории блюд</a></li>
+    <li><a asp-controller="OrderStatus" asp-action="Index">Статусы заказа</a></li>
+    <li><a asp-controller="Restaurants" asp-action="Index">Рестораны</a></li>
+    <li><a asp-controller="Orders" asp-action="Index">Заказы</a></li>
+    <li><a asp-controller="Orders" asp-action="Index">Заказы</a></li>
+    <li><a asp-controller="Employees" asp-action="Index">Сотрудника</a></li>
+    <li><a asp-controller="Dishes" asp-action="Index">Блюда</a></li>
+    <li><a asp-controller="Account" asp-action="Logout">Выход</a></li>
+</ul>

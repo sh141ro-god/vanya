@@ -1,0 +1,102 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\off\\vanya\\12\\delivery\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\clients\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\clients\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|c:\\off\\vanya\\12\\delivery\\delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{17082E21-10C2-4101-8694-7F29AF83683A}|delivery\\delivery.csproj|solutionrelative:delivery\\models\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Client.cs",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Client.cs",
+              "RelativeDocumentMoniker": "delivery\\Models\\Client.cs",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Models\\Client.cs",
+              "RelativeToolTip": "delivery\\Models\\Client.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T10:20:45.265Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "delivery\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "delivery\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAwwDwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-22T14:31:57.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Clients\\Create.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Clients\\Create.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Clients\\Create.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Clients\\Create.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T12:37:51.592Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "delivery\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "delivery\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-03-22T12:28:27.922Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "delivery\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\off\\vanya\\12\\delivery\\delivery\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "delivery\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAwDkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T12:26:00.346Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
