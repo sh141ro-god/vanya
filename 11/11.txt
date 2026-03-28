@@ -1,108 +1,99 @@
-USE master;
-GO
 
-IF EXISTS (SELECT name FROM sys.databases WHERE name = 'delivery_db')
-    DROP DATABASE delivery_db;
-GO
+CREATE TABLE Role (
+    Role_ID     INT             NOT NULL IDENTITY(1,1),
+    Name        VARCHAR(25)     NOT NULL,
+    Description VARCHAR(100)    NOT NULL DEFAULT '',
 
-CREATE DATABASE delivery_db
-    COLLATE Cyrillic_General_CI_AS;
-GO
-
-USE delivery_db;
-GO
-
-CREATE TABLE Должность (
-    ID_должности    INT             NOT NULL IDENTITY(1,1),
-    Название        VARCHAR(25)     NOT NULL,
-    Описание        VARCHAR(100)        NULL,
-
-    CONSTRAINT PK_Должность      PRIMARY KEY (ID_должности),
-    CONSTRAINT UQ_Должность_Назв UNIQUE (Название)
+    CONSTRAINT PK_Role      PRIMARY KEY (Role_ID),
+    CONSTRAINT UQ_Role_Name UNIQUE (Name)
 );
-GO
 
-CREATE TABLE Сотрудник (
-    ID_сотрудника   INT             NOT NULL IDENTITY(1,1),
-    ФИО             VARCHAR(25)     NOT NULL,
-    Пароль          VARCHAR(255)    NOT NULL,
-    Логин           VARCHAR(25)     NOT NULL,
-    Должность       INT                 NULL,
 
-    CONSTRAINT PK_Сотрудник       PRIMARY KEY (ID_сотрудника),
-    CONSTRAINT UQ_Сотрудник_Логин UNIQUE (Логин),
 
-    CONSTRAINT FK_Сотрудник_Должность
-        FOREIGN KEY (Должность) REFERENCES Должность (ID_должности)
+CREATE TABLE Employees (
+    Employees_ID    INT             NOT NULL IDENTITY(1,1),
+    Name            VARCHAR(25)     NOT NULL,
+    Password        VARCHAR(255)    NOT NULL,
+    Login           VARCHAR(25)     NOT NULL,
+    Role_ID         INT                 NULL,
+
+    CONSTRAINT PK_Employees       PRIMARY KEY (Employees_ID),
+    CONSTRAINT UQ_Employees_Login UNIQUE (Login),
+
+    CONSTRAINT FK_Employees_Role
+        FOREIGN KEY (Role_ID) REFERENCES Role (Role_ID)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
-GO
 
-CREATE TABLE Клиент (
-    ID_клиента  INT             NOT NULL IDENTITY(1,1),
-    Название    VARCHAR(25)     NOT NULL,
-    Телефон     VARCHAR(12)         NULL,
-    Адрес       VARCHAR(50)         NULL,
+
+CREATE TABLE Order_Status (
+    Order_Status_ID INT             NOT NULL IDENTITY(1,1),
+    Name            VARCHAR(25)     NOT NULL,
+    Description     VARCHAR(100)    NOT NULL DEFAULT '',
+
+    CONSTRAINT PK_Order_Status      PRIMARY KEY (Order_Status_ID),
+    CONSTRAINT UQ_Order_Status_Name UNIQUE (Name)
+);
+
+
+
+CREATE TABLE Company (
+    Company_ID   INT             NOT NULL IDENTITY(1,1),
+    Name        VARCHAR(25)     NOT NULL,
+    Number      VARCHAR(12)         NULL,
+    Address     VARCHAR(50)         NULL,
     Email       VARCHAR(25)         NULL,
 
-    CONSTRAINT PK_Клиент       PRIMARY KEY (ID_клиента),
-    CONSTRAINT UQ_Клиент_Email UNIQUE (Email)
+    CONSTRAINT PK_Company       PRIMARY KEY (Company_ID),
+    CONSTRAINT UQ_Company_Email UNIQUE (Email)
 );
-GO
 
-CREATE TABLE Статус_заказа (
-    ID_статуса  INT             NOT NULL IDENTITY(1,1),
-    Название    VARCHAR(25)     NOT NULL,
-    Описание    VARCHAR(100)        NULL,
 
-    CONSTRAINT PK_Статус_заказа      PRIMARY KEY (ID_статуса),
-    CONSTRAINT UQ_Статус_заказа_Назв UNIQUE (Название)
-);
-GO
+CREATE TABLE Contract (
+    Contract_ID     INT             NOT NULL IDENTITY(1,1),
+    Client          INT             NOT NULL,
+    DeliveryTime    DATETIME        NOT NULL,
+    Cost            INT             NOT NULL DEFAULT 0,
+    StartDate       DATETIME        NOT NULL DEFAULT GETDATE(),
+    EndDate         DATETIME            NULL,
 
-CREATE TABLE Договор (
-    ID_договора     INT             NOT NULL IDENTITY(1,1),
-    Клиент          INT             NOT NULL,
-    Время_доставки  DATETIME        NOT NULL,
-    Дата_начала     DATETIME        NOT NULL DEFAULT GETDATE(),
-    Дата_окончания  DATETIME            NULL,
+    CONSTRAINT PK_Contract   PRIMARY KEY (Contract_ID),
+    CONSTRAINT CK_Contract_Cost CHECK (Cost >= 0),
 
-    CONSTRAINT PK_Договор PRIMARY KEY (ID_договора),
-
-    CONSTRAINT FK_Договор_Клиент
-        FOREIGN KEY (Клиент) REFERENCES Клиент (ID_клиента)
+    CONSTRAINT FK_Contract_Client
+        FOREIGN KEY (Client) REFERENCES Company (Company_ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
 );
-GO
 
-CREATE TABLE Заказ (
-    ID_заказа   INT     NOT NULL IDENTITY(1,1),
-    Договор     INT     NOT NULL,
-    Сотрудник   INT         NULL,
-    Статус      INT     NOT NULL,
-    Стоимость   INT     NOT NULL DEFAULT 0,
 
-    CONSTRAINT PK_Заказ PRIMARY KEY (ID_заказа),
-    CONSTRAINT CK_Заказ_Стоим CHECK (Стоимость >= 0),
 
-    CONSTRAINT FK_Заказ_Договор
-        FOREIGN KEY (Договор) REFERENCES Договор (ID_договора)
+CREATE TABLE [Order] (
+    Order_ID    INT     NOT NULL IDENTITY(1,1),
+    Contract    INT     NOT NULL,
+    Employee    INT         NULL,
+    Status      INT     NOT NULL,
+
+    CONSTRAINT PK_Order PRIMARY KEY (Order_ID),
+
+    CONSTRAINT FK_Order_Contract
+        FOREIGN KEY (Contract) REFERENCES Contract (Contract_ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE,
 
-    CONSTRAINT FK_Заказ_Сотрудник
-        FOREIGN KEY (Сотрудник) REFERENCES Сотрудник (ID_сотрудника)
+    CONSTRAINT FK_Order_Employee
+        FOREIGN KEY (Employee) REFERENCES Employees (Employees_ID)
         ON DELETE SET NULL
         ON UPDATE CASCADE,
 
-    CONSTRAINT FK_Заказ_Статус
-        FOREIGN KEY (Статус) REFERENCES Статус_заказа (ID_статуса)
+    CONSTRAINT FK_Order_Status
+        FOREIGN KEY (Status) REFERENCES Order_Status (Order_Status_ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
 );
-GO
+
+
 
 CREATE TABLE Категория_блюд (
     ID_категории    INT             NOT NULL IDENTITY(1,1),
@@ -112,129 +103,126 @@ CREATE TABLE Категория_блюд (
     CONSTRAINT PK_Категория_блюд      PRIMARY KEY (ID_категории),
     CONSTRAINT UQ_Категория_блюд_Назв UNIQUE (Название)
 );
-GO
 
-CREATE TABLE Блюдо (
-    ID_блюда    INT             NOT NULL IDENTITY(1,1),
-    Название    VARCHAR(25)     NOT NULL,
-    Цена        INT             NOT NULL DEFAULT 0,
-    Описание    VARCHAR(100)        NULL,
-    Категория   INT                 NULL,
 
-    CONSTRAINT PK_Блюдо      PRIMARY KEY (ID_блюда),
-    CONSTRAINT CK_Блюдо_Цена CHECK (Цена >= 0),
+CREATE TABLE Dish (
+    Dish_ID     INT             NOT NULL IDENTITY(1,1),
+    Name        VARCHAR(25)     NOT NULL,
+    Cost        INT             NOT NULL DEFAULT 0,
+    Description VARCHAR(100)        NULL,
+    Category_ID INT                 NULL,
 
-    CONSTRAINT FK_Блюдо_Категория
-        FOREIGN KEY (Категория) REFERENCES Категория_блюд (ID_категории)
+    CONSTRAINT PK_Dish      PRIMARY KEY (Dish_ID),
+    CONSTRAINT CK_Dish_Cost CHECK (Cost >= 0),
+
+    CONSTRAINT FK_Dish_Category
+        FOREIGN KEY (Category_ID) REFERENCES Категория_блюд (ID_категории)
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
-GO
 
-CREATE TABLE Позиция_в_заказе (
-    Заказ   INT     NOT NULL,
-    Блюдо   INT     NOT NULL,
-    Количество INT  NOT NULL DEFAULT 1,
-    Цена    INT     NOT NULL DEFAULT 0,
 
-    CONSTRAINT PK_Позиция_в_заказе      PRIMARY KEY (Заказ, Блюдо),
-    CONSTRAINT CK_Позиция_Кол           CHECK (Количество > 0),
-    CONSTRAINT CK_Позиция_Цена          CHECK (Цена >= 0),
 
-    CONSTRAINT FK_Позиция_Заказ
-        FOREIGN KEY (Заказ) REFERENCES Заказ (ID_заказа)
+CREATE TABLE Order_Part (
+    Order_ID    INT     NOT NULL,
+    Dish_ID     INT     NOT NULL,
+    Count       INT     NOT NULL DEFAULT 1,
+    Cost        INT     NOT NULL DEFAULT 0,
+
+    CONSTRAINT PK_Order_Part      PRIMARY KEY (Order_ID, Dish_ID),
+    CONSTRAINT CK_Order_Part_Cnt  CHECK (Count > 0),
+    CONSTRAINT CK_Order_Part_Cost CHECK (Cost >= 0),
+
+    CONSTRAINT FK_Order_Part_Order
+        FOREIGN KEY (Order_ID) REFERENCES [Order] (Order_ID)
         ON DELETE CASCADE
         ON UPDATE CASCADE,
 
-    CONSTRAINT FK_Позиция_Блюдо
-        FOREIGN KEY (Блюдо) REFERENCES Блюдо (ID_блюда)
+    CONSTRAINT FK_Order_Part_Dish
+        FOREIGN KEY (Dish_ID) REFERENCES Dish (Dish_ID)
         ON DELETE NO ACTION
         ON UPDATE CASCADE
 );
-GO
-
-CREATE TABLE Продукт (
-    ID_продукта INT             NOT NULL IDENTITY(1,1),
-    Название    VARCHAR(25)     NOT NULL,
-
-    CONSTRAINT PK_Продукт      PRIMARY KEY (ID_продукта),
-    CONSTRAINT UQ_Продукт_Назв UNIQUE (Название)
-);
-GO
-
-CREATE TABLE Состав (
-    Продукт     INT     NOT NULL,
-    Блюдо       INT     NOT NULL,
-    Количество  INT     NOT NULL DEFAULT 1,
-
-    CONSTRAINT PK_Состав     PRIMARY KEY (Продукт, Блюдо),
-    CONSTRAINT CK_Состав_Кол CHECK (Количество > 0),
-
-    CONSTRAINT FK_Состав_Продукт
-        FOREIGN KEY (Продукт) REFERENCES Продукт (ID_продукта)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE,
-
-    CONSTRAINT FK_Состав_Блюдо
-        FOREIGN KEY (Блюдо) REFERENCES Блюдо (ID_блюда)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-GO
 
 
-INSERT INTO Должность (Название, Описание) VALUES
-    ('Должность1', 'Описание1'),
-    ('Должность2', 'Описание2'),
-    ('Должность3', 'Описание3');
 
-INSERT INTO Сотрудник (ФИО, Пароль, Логин, Должность) VALUES
+
+INSERT INTO Role (Name, Description) VALUES
+    ('Роль1', 'Описание1'),
+    ('Роль2', 'Описание2'),
+    ('Роль3', 'Описание3');
+
+INSERT INTO Employees (Name, Password, Login, Role_ID) VALUES
     ('Сотрудник1', CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'pass1'), 2), 'login1', 1),
     ('Сотрудник2', CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'pass2'), 2), 'login2', 2),
     ('Сотрудник3', CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'pass3'), 2), 'login3', 3);
 
-INSERT INTO Клиент (Название, Телефон, Адрес, Email) VALUES
-    ('Клиент1', 'Телефон1', 'Адрес1', 'email1@mail.ru'),
-    ('Клиент2', 'Телефон2', 'Адрес2', 'email2@mail.ru'),
-    ('Клиент3', 'Телефон3', 'Адрес3', 'email3@mail.ru');
-
-INSERT INTO Статус_заказа (Название, Описание) VALUES
+INSERT INTO Order_Status (Name, Description) VALUES
     ('Статус1', 'Описание1'),
     ('Статус2', 'Описание2'),
     ('Статус3', 'Описание3');
 
-INSERT INTO Договор (Клиент, Время_доставки, Дата_начала, Дата_окончания) VALUES
-    (1, '2026-02-01 12:00', '2026-01-01', '2026-06-01'),
-    (2, '2026-02-02 13:00', '2026-01-02', '2026-06-02'),
-    (3, '2026-02-03 14:00', '2026-01-03', '2026-06-03');
+INSERT INTO Company (Name, Number, Address, Email) VALUES
+    ('Клиент1', 'Телефон1', 'Адрес1', 'email1@mail.ru'),
+    ('Клиент2', 'Телефон2', 'Адрес2', 'email2@mail.ru'),
+    ('Клиент3', 'Телефон3', 'Адрес3', 'email3@mail.ru');
 
-INSERT INTO Заказ (Договор, Сотрудник, Статус, Стоимость) VALUES
-    (1, 1, 1, 100),
-    (2, 2, 2, 200),
-    (3, 3, 3, 300);
+INSERT INTO Contract (Client, DeliveryTime, Cost, StartDate, EndDate) VALUES
+    (1, '2026-02-01 12:00', 500,  '2026-01-01', '2026-06-01'),
+    (2, '2026-02-02 13:00', 800,  '2026-01-02', '2026-06-02'),
+    (3, '2026-02-03 14:00', 1200, '2026-01-03', '2026-06-03');
+
+INSERT INTO [Order] (Contract, Employee, Status) VALUES
+    (1, 1, 1),
+    (2, 2, 2),
+    (3, 3, 3);
 
 INSERT INTO Категория_блюд (Название, Описание) VALUES
     ('Категория1', 'Описание1'),
     ('Категория2', 'Описание2'),
     ('Категория3', 'Описание3');
 
-INSERT INTO Блюдо (Название, Цена, Описание, Категория) VALUES
+INSERT INTO Dish (Name, Cost, Description, Category_ID) VALUES
     ('Блюдо1', 100, 'Описание1', 1),
     ('Блюдо2', 200, 'Описание2', 2),
     ('Блюдо3', 300, 'Описание3', 3);
 
-INSERT INTO Позиция_в_заказе (Заказ, Блюдо, Количество, Цена) VALUES
+INSERT INTO Order_Part (Order_ID, Dish_ID, Count, Cost) VALUES
     (1, 1, 1, 100),
     (2, 2, 2, 400),
     (3, 3, 3, 900);
 
-INSERT INTO Продукт (Название) VALUES
-    ('Продукт1'),
-    ('Продукт2'),
-    ('Продукт3');
 
-INSERT INTO Состав (Продукт, Блюдо, Количество) VALUES
-    (1, 1, 2),
-    (2, 2, 3),
-    (3, 3, 1);
-GO
+
+
+SELECT
+    o.Order_ID,
+    c.Name          AS Клиент,
+    e.Name          AS Сотрудник,
+    os.Name         AS Статус,
+    ct.DeliveryTime AS Время_доставки,
+    ct.Cost         AS Стоимость_контракта
+FROM [Order] o
+JOIN Contract    ct ON ct.Contract_ID     = o.Contract
+JOIN Company       c ON c.Company_ID        = ct.Client
+JOIN Order_Status os ON os.Order_Status_ID = o.Status
+LEFT JOIN Employees e ON e.Employees_ID   = o.Employee;
+
+
+SELECT
+    op.Order_ID     AS Заказ,
+    d.Name          AS Блюдо,
+    op.Count        AS Количество,
+    op.Cost         AS Сумма
+FROM Order_Part op
+JOIN Dish d ON d.Dish_ID = op.Dish_ID
+ORDER BY op.Order_ID;
+
+-- Меню по категориям
+SELECT
+    k.Название      AS Категория,
+    d.Name          AS Блюдо,
+    d.Cost          AS Цена
+FROM Dish d
+LEFT JOIN Категория_блюд k ON k.ID_категории = d.Category_ID
+ORDER BY k.Название;
