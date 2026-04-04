@@ -1,150 +1,363 @@
+-- ============================================================
+--  Лабораторная работа №10 — Проектирование БД
+--  СУБД: Microsoft SQL Server
+-- ============================================================
 
+USE master;
+GO
+
+-- Создание базы данных
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'Lab10DB')
+    DROP DATABASE Lab10DB;
+GO
+
+CREATE DATABASE Lab10DB
+    COLLATE Cyrillic_General_CI_AS;
+GO
+
+USE Lab10DB;
+GO
+
+-- ============================================================
+--  СОЗДАНИЕ ТАБЛИЦ
+-- ============================================================
+
+-- 1. Роль (должность сотрудника доставки)
 CREATE TABLE Role (
-    Role_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL UNIQUE,
-    Description VARCHAR(100) NOT NULL DEFAULT ''
+    Role_ID     INT           PRIMARY KEY IDENTITY(1,1),
+    Name        VARCHAR(25)   NOT NULL,
+    Description VARCHAR(100)  NULL
 );
+GO
 
-
-CREATE TABLE Employee (
-    Employee_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    Login VARCHAR(25) NOT NULL UNIQUE,
-    Role_ID INT NULL,
-
-    CONSTRAINT FK_Employee_Role
-        FOREIGN KEY (Role_ID) REFERENCES Role(Role_ID)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
+-- 2. Сотрудник (сотрудник службы доставки)
+CREATE TABLE Employees (
+    Employees_ID INT          PRIMARY KEY IDENTITY(1,1),
+    Name         VARCHAR(50)  NOT NULL,
+    Password     VARCHAR(25)  NOT NULL,
+    Login        VARCHAR(25)  NOT NULL UNIQUE,
+    Role_ID      INT          NOT NULL,
+    CONSTRAINT FK_Employees_Role FOREIGN KEY (Role_ID) REFERENCES Role(Role_ID)
 );
+GO
 
-
-CREATE TABLE Company (
-    Company_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL,
-    Number VARCHAR(12) NULL,
-    Address VARCHAR(50) NULL,
-    Email VARCHAR(25) NULL UNIQUE
-);
-
-
-CREATE TABLE Company_Employees (
-    Company_ID INT NOT NULL,
-    Employee_ID INT NOT NULL,
-
-    PRIMARY KEY (Company_ID, Employee_ID),
-
-    CONSTRAINT FK_CE_Company
-        FOREIGN KEY (Company_ID) REFERENCES Company(Company_ID)
-        ON DELETE CASCADE,
-
-    CONSTRAINT FK_CE_Employee
-        FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
-        ON DELETE CASCADE
-);
-
-
-CREATE TABLE Contract (
-    Contract_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Company_ID INT NOT NULL,
-    DeliveryTime DATETIME NOT NULL,
-    Cost INT NOT NULL DEFAULT 0,
-    StartDate DATETIME NOT NULL DEFAULT GETDATE(),
-    EndDate DATETIME NULL,
-
-    CONSTRAINT CK_Contract_Cost CHECK (Cost >= 0),
-
-    CONSTRAINT FK_Contract_Company
-        FOREIGN KEY (Company_ID) REFERENCES Company(Company_ID)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE
-);
-
-
+-- 3. Статус заказа
 CREATE TABLE Order_Status (
-    Order_Status_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL UNIQUE,
-    Description VARCHAR(100) NOT NULL DEFAULT ''
+    Order_Status_ID INT          PRIMARY KEY IDENTITY(1,1),
+    Name            VARCHAR(25)  NOT NULL,
+    Description     VARCHAR(100) NULL
 );
+GO
 
+-- 4. Компания-клиент
+CREATE TABLE Company (
+    Company_ID  INT          PRIMARY KEY IDENTITY(1,1),
+    Name        VARCHAR(50)  NOT NULL,
+    Number      VARCHAR(12)  NULL,
+    Address     VARCHAR(100) NULL,
+    Email       VARCHAR(50)  NULL
+);
+GO
 
+-- 5. Договор
+CREATE TABLE Contract (
+    Contract_ID  INT      PRIMARY KEY IDENTITY(1,1),
+    Company_ID   INT      NOT NULL,
+    DeliveryTime TIME     NOT NULL,
+    StartDate    DATE     NOT NULL,
+    EndDate      DATE     NOT NULL,
+    CONSTRAINT FK_Contract_Company FOREIGN KEY (Company_ID) REFERENCES Company(Company_ID)
+);
+GO
+
+-- 6. Сотрудник компании-клиента
+CREATE TABLE Company_Employees (
+    CompanyEmployees_ID INT          PRIMARY KEY IDENTITY(1,1),
+    Name                VARCHAR(50)  NOT NULL,
+    Password            VARCHAR(25)  NOT NULL,
+    Login               VARCHAR(25)  NOT NULL UNIQUE,
+    Company_ID          INT          NOT NULL,
+    CONSTRAINT FK_CompanyEmp_Company FOREIGN KEY (Company_ID) REFERENCES Company(Company_ID)
+);
+GO
+
+-- 7. Заказ
 CREATE TABLE [Order] (
-    Order_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Contract_ID INT NOT NULL,
-    Employee_ID INT NULL,
-    Status_ID INT NOT NULL,
-
-    CONSTRAINT FK_Order_Contract
-        FOREIGN KEY (Contract_ID) REFERENCES Contract(Contract_ID)
-        ON DELETE NO ACTION,
-
-    CONSTRAINT FK_Order_Employee
-        FOREIGN KEY (Employee_ID) REFERENCES Employee(Employee_ID)
-        ON DELETE SET NULL,
-
-    CONSTRAINT FK_Order_Status
-        FOREIGN KEY (Status_ID) REFERENCES Order_Status(Order_Status_ID)
-        ON DELETE NO ACTION
+    Order_ID    INT  PRIMARY KEY IDENTITY(1,1),
+    Contract_ID INT  NOT NULL,
+    Employee_ID INT  NOT NULL,   -- доставщик
+    Status_ID   INT  NOT NULL,
+    OrderDate   DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
+    CONSTRAINT FK_Order_Contract FOREIGN KEY (Contract_ID) REFERENCES Contract(Contract_ID),
+    CONSTRAINT FK_Order_Employee FOREIGN KEY (Employee_ID) REFERENCES Employees(Employees_ID),
+    CONSTRAINT FK_Order_Status   FOREIGN KEY (Status_ID)   REFERENCES Order_Status(Order_Status_ID)
 );
+GO
 
+-- 8. Связь «сотрудник компании — заказ» (кто из компании сделал заказ)
+CREATE TABLE Company_Employees_Order (
+    CompanyEmployees_ID INT NOT NULL,
+    Order_ID            INT NOT NULL,
+    CONSTRAINT PK_CompEmpOrder PRIMARY KEY (CompanyEmployees_ID, Order_ID),
+    CONSTRAINT FK_CEO_CompEmp  FOREIGN KEY (CompanyEmployees_ID) REFERENCES Company_Employees(CompanyEmployees_ID),
+    CONSTRAINT FK_CEO_Order    FOREIGN KEY (Order_ID)            REFERENCES [Order](Order_ID)
+);
+GO
 
+-- 9. Категория блюд
 CREATE TABLE Category (
-    Category_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL UNIQUE,
+    Category_ID INT          PRIMARY KEY IDENTITY(1,1),
+    Name        VARCHAR(50)  NOT NULL,
     Description VARCHAR(100) NULL
 );
+GO
 
-
+-- 10. Блюдо
 CREATE TABLE Dish (
-    Dish_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(25) NOT NULL,
-    Cost INT NOT NULL DEFAULT 0,
-    Description VARCHAR(100) NULL,
-    Category_ID INT NULL,
-
-    CONSTRAINT CK_Dish_Cost CHECK (Cost >= 0),
-
-    CONSTRAINT FK_Dish_Category
-        FOREIGN KEY (Category_ID) REFERENCES Category(Category_ID)
-        ON DELETE SET NULL
+    Dish_ID     INT           PRIMARY KEY IDENTITY(1,1),
+    Name        VARCHAR(50)   NOT NULL,
+    Cost        DECIMAL(10,2) NOT NULL,
+    Description VARCHAR(200)  NULL,
+    Category_ID INT           NOT NULL,
+    CONSTRAINT FK_Dish_Category FOREIGN KEY (Category_ID) REFERENCES Category(Category_ID)
 );
+GO
 
-
-CREATE TABLE Ingredient (
-    Ingredient_ID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(50) NOT NULL
-);
-
-
-CREATE TABLE Dish_Ingredient (
-    Dish_ID INT NOT NULL,
-    Ingredient_ID INT NOT NULL,
-    Count INT NOT NULL DEFAULT 1,
-
-    PRIMARY KEY (Dish_ID, Ingredient_ID),
-
-    CONSTRAINT FK_DI_Dish
-        FOREIGN KEY (Dish_ID) REFERENCES Dish(Dish_ID)
-        ON DELETE CASCADE,
-
-    CONSTRAINT FK_DI_Ingredient
-        FOREIGN KEY (Ingredient_ID) REFERENCES Ingredient(Ingredient_ID)
-        ON DELETE CASCADE
-);
-
-
+-- 11. Позиция в заказе (что именно заказано)
 CREATE TABLE Order_Part (
-    Order_ID INT NOT NULL,
-    Dish_ID INT NOT NULL,
-    Count INT NOT NULL DEFAULT 1,
-    Cost INT NOT NULL DEFAULT 0,
-
-    PRIMARY KEY (Order_ID, Dish_ID),
-
-    CONSTRAINT CK_OrderPart_Count CHECK (Count > 0),
-    CONSTRAINT CK_OrderPart_Cost CHECK (Cost >= 0),
-
-    FOREIGN KEY (Order_ID) REFERENCES [Order](Order_ID) ON DELETE CASCADE,
-    FOREIGN KEY (Dish_ID) REFERENCES Dish(Dish_ID)
+    CompanyEmployees_ID INT           NOT NULL,
+    Dish_ID             INT           NOT NULL,
+    Count               INT           NOT NULL DEFAULT 1,
+    Cost                DECIMAL(10,2) NOT NULL,
+    CONSTRAINT PK_OrderPart         PRIMARY KEY (CompanyEmployees_ID, Dish_ID),
+    CONSTRAINT FK_OP_CompEmp        FOREIGN KEY (CompanyEmployees_ID) REFERENCES Company_Employees(CompanyEmployees_ID),
+    CONSTRAINT FK_OP_Dish           FOREIGN KEY (Dish_ID)             REFERENCES Dish(Dish_ID),
+    CONSTRAINT CHK_OP_Count         CHECK (Count > 0)
 );
+GO
+
+-- 12. Ингредиент
+CREATE TABLE Ingredient (
+    Ingredient_ID INT         PRIMARY KEY IDENTITY(1,1),
+    Name          VARCHAR(50) NOT NULL
+);
+GO
+
+-- 13. Состав блюда (блюдо ↔ ингредиент)
+CREATE TABLE Dish_Ingredient (
+    Dish_ID       INT           NOT NULL,
+    Ingredient_ID INT           NOT NULL,
+    Count         INT           NOT NULL DEFAULT 1,
+    CONSTRAINT PK_DishIngredient    PRIMARY KEY (Dish_ID, Ingredient_ID),
+    CONSTRAINT FK_DI_Dish           FOREIGN KEY (Dish_ID)       REFERENCES Dish(Dish_ID),
+    CONSTRAINT FK_DI_Ingredient     FOREIGN KEY (Ingredient_ID) REFERENCES Ingredient(Ingredient_ID),
+    CONSTRAINT CHK_DI_Count         CHECK (Count > 0)
+);
+GO
+
+
+-- ============================================================
+--  ТЕСТОВЫЕ ДАННЫЕ
+-- ============================================================
+
+-- Роли
+INSERT INTO Role (Name, Description) VALUES
+    ('Менеджер',     'Управление заказами и клиентами'),
+    ('Курьер',       'Доставка заказов'),
+    ('Повар',        'Приготовление блюд'),
+    ('Администратор','Полный доступ к системе');
+GO
+
+-- Сотрудники службы доставки
+INSERT INTO Employees (Name, Password, Login, Role_ID) VALUES
+    ('Иванов Алексей Петрович',    'pass1234', 'ivanov_a',    2),  -- Курьер
+    ('Смирнова Ольга Ивановна',    'secure55', 'smirnova_o',  1),  -- Менеджер
+    ('Петров Дмитрий Сергеевич',   'qwerty99', 'petrov_d',    2),  -- Курьер
+    ('Козлова Наталья Викторовна', 'admin000', 'kozlova_n',   4);  -- Администратор
+GO
+
+-- Статусы заказов
+INSERT INTO Order_Status (Name, Description) VALUES
+    ('Новый',       'Заказ только что создан'),
+    ('В обработке', 'Заказ принят и готовится'),
+    ('В пути',      'Заказ передан курьеру'),
+    ('Доставлен',   'Заказ успешно доставлен'),
+    ('Отменён',     'Заказ отменён клиентом');
+GO
+
+-- Компании-клиенты
+INSERT INTO Company (Name, Number, Address, Email) VALUES
+    ('ООО «ТехноСтарт»',    '+7-495-123-45-67', 'г. Москва, ул. Ленина, 10',       'info@technostart.ru'),
+    ('АО «Горизонт»',       '+7-812-987-65-43', 'г. Санкт-Петербург, пр. Невский, 5','contact@gorizont.ru'),
+    ('ИП Захаров А.В.',     '+7-343-555-00-11', 'г. Екатеринбург, ул. Мира, 22',   'zaharov@mail.ru'),
+    ('ООО «Прогресс Плюс»', '+7-495-777-88-99', 'г. Москва, ул. Тверская, 34',     'info@progress-plus.ru');
+GO
+
+-- Договоры
+INSERT INTO Contract (Company_ID, DeliveryTime, StartDate, EndDate) VALUES
+    (1, '12:00', '2025-01-10', '2026-01-10'),
+    (2, '13:00', '2025-03-01', '2026-03-01'),
+    (3, '11:30', '2025-06-15', '2026-06-15'),
+    (4, '14:00', '2025-09-01', '2026-09-01');
+GO
+
+-- Сотрудники компаний-клиентов
+INSERT INTO Company_Employees (Name, Password, Login, Company_ID) VALUES
+    ('Морозов Игорь Андреевич',    'comp1111', 'morozov_i',  1),
+    ('Фёдорова Светлана Павловна', 'comp2222', 'fedorova_s', 1),
+    ('Новиков Кирилл Олегович',    'comp3333', 'novikov_k',  2),
+    ('Белова Анна Геннадьевна',    'comp4444', 'belova_a',   3),
+    ('Соколов Максим Юрьевич',     'comp5555', 'sokolov_m',  4);
+GO
+
+-- Заказы (Заказ 1 … Заказ 6)
+INSERT INTO [Order] (Contract_ID, Employee_ID, Status_ID, OrderDate) VALUES
+    (1, 1, 4, '2025-11-01'),   -- Заказ 1: доставлен, курьер Иванов
+    (1, 3, 4, '2025-11-05'),   -- Заказ 2: доставлен, курьер Петров
+    (2, 1, 3, '2025-11-10'),   -- Заказ 3: в пути,    курьер Иванов
+    (3, 3, 2, '2025-11-12'),   -- Заказ 4: в обработке
+    (4, 1, 1, '2025-11-14'),   -- Заказ 5: новый
+    (2, 3, 5, '2025-11-08');   -- Заказ 6: отменён
+GO
+
+-- Связь «сотрудник компании — заказ»
+INSERT INTO Company_Employees_Order (CompanyEmployees_ID, Order_ID) VALUES
+    (1, 1),  -- Морозов    → Заказ 1
+    (2, 2),  -- Фёдорова   → Заказ 2
+    (3, 3),  -- Новиков    → Заказ 3
+    (4, 4),  -- Белова     → Заказ 4
+    (5, 5),  -- Соколов    → Заказ 5
+    (1, 2),  -- Морозов    → Заказ 2 (повторный)
+    (3, 6);  -- Новиков    → Заказ 6
+GO
+
+-- Категории блюд
+INSERT INTO Category (Name, Description) VALUES
+    ('Первые блюда',  'Супы и бульоны'),
+    ('Вторые блюда',  'Горячие основные блюда'),
+    ('Гарниры',       'Дополнения к основным блюдам'),
+    ('Салаты',        'Холодные и тёплые салаты'),
+    ('Напитки',       'Горячие и холодные напитки'),
+    ('Десерты',       'Выпечка и сладкие блюда');
+GO
+
+-- Блюда
+INSERT INTO Dish (Name, Cost, Description, Category_ID) VALUES
+    ('Борщ классический',    180.00, 'Свёкла, капуста, мясо',      1),
+    ('Щи домашние',          160.00, 'Свежая капуста, говядина',    1),
+    ('Котлета по-киевски',   320.00, 'Куриное филе, масло, зелень', 2),
+    ('Стейк из говядины',    590.00, 'Мраморная говядина, специи',  2),
+    ('Картофельное пюре',     90.00, 'Картофель, молоко, масло',    3),
+    ('Рис отварной',          70.00, 'Длиннозёрный рис',            3),
+    ('Салат Цезарь',         220.00, 'Курица, гренки, пармезан',    4),
+    ('Греческий салат',      195.00, 'Огурцы, помидоры, фета',      4),
+    ('Чай чёрный',            60.00, 'Листовой чай',                5),
+    ('Кофе американо',        90.00, 'Эспрессо с водой',            5),
+    ('Тирамису',             210.00, 'Маскарпоне, бисквит, кофе',   6),
+    ('Блинчики с мёдом',     150.00, 'Тонкие блинчики, мёд',       6);
+GO
+
+-- Позиции в заказах
+INSERT INTO Order_Part (CompanyEmployees_ID, Dish_ID, Count, Cost) VALUES
+    -- Морозов (Заказ 1)
+    (1, 1, 2, 360.00),   -- 2 борща
+    (1, 5, 2,  180.00),  -- 2 картофельных пюре
+    (1, 9, 2,  120.00),  -- 2 чая
+    -- Фёдорова (Заказ 2)
+    (2, 3, 1, 320.00),   -- котлета по-киевски
+    (2, 6, 1,  70.00),   -- рис
+    (2, 10, 1,  90.00),  -- кофе
+    -- Новиков (Заказ 3)
+    (3, 4, 2, 1180.00),  -- 2 стейка
+    (3, 7, 2,  440.00),  -- 2 Цезаря
+    -- Белова (Заказ 4)
+    (4, 2, 1, 160.00),   -- щи
+    (4, 8, 1, 195.00),   -- греческий салат
+    (4, 11, 2, 420.00),  -- 2 тирамису
+    -- Соколов (Заказ 5)
+    (5, 3, 3, 960.00),   -- 3 котлеты
+    (5, 5, 3, 270.00),   -- 3 пюре
+    (5, 12, 3, 450.00);  -- 3 блинчика
+GO
+
+-- Ингредиенты
+INSERT INTO Ingredient (Name) VALUES
+    ('Говядина'),('Свинина'),('Курица'),('Свёкла'),('Капуста'),
+    ('Картофель'),('Молоко'),('Масло сливочное'),('Рис'),
+    ('Салатный лист'),('Помидоры'),('Огурцы'),('Сыр фета'),
+    ('Пармезан'),('Гренки'),('Маскарпоне'),('Бисквит'),
+    ('Кофе'),('Чай листовой'),('Мёд'),('Мука');
+GO
+
+-- Состав блюд
+INSERT INTO Dish_Ingredient (Dish_ID, Ingredient_ID, Count) VALUES
+    -- Борщ (1)
+    (1, 1, 150),(1, 4, 100),(1, 5, 100),(1, 6, 80),
+    -- Щи (2)
+    (2, 1, 150),(2, 5, 150),(2, 6, 80),
+    -- Котлета по-киевски (3)
+    (3, 3, 200),(3, 8, 50),
+    -- Стейк (4)
+    (4, 1, 300),
+    -- Пюре (5)
+    (5, 6, 300),(5, 7, 100),(5, 8, 30),
+    -- Рис (6)
+    (6, 9, 200),
+    -- Цезарь (7)
+    (7, 3, 100),(7, 10, 50),(7, 14, 30),(7, 15, 20),
+    -- Греческий салат (8)
+    (8, 11, 80),(8, 12, 80),(8, 13, 60),
+    -- Чай (9)
+    (9, 19, 5),
+    -- Американо (10)
+    (10, 18, 10),
+    -- Тирамису (11)
+    (11, 16, 200),(11, 17, 100),(11, 18, 20),
+    -- Блинчики (12)
+    (12, 21, 100),(12, 7, 50),(12, 20, 30);
+GO
+
+
+-- ============================================================
+--  КОНТРОЛЬНЫЕ ЗАПРОСЫ
+-- ============================================================
+
+-- 1. Все заказы с договором, компанией, статусом и курьером
+SELECT
+    o.Order_ID        AS [Заказ №],
+    o.OrderDate       AS [Дата],
+    c.Name            AS [Компания],
+    os.Name           AS [Статус],
+    e.Name            AS [Курьер],
+    ct.DeliveryTime   AS [Время доставки]
+FROM [Order] o
+JOIN Contract    ct ON o.Contract_ID = ct.Contract_ID
+JOIN Company      c ON ct.Company_ID  = c.Company_ID
+JOIN Order_Status os ON o.Status_ID   = os.Order_Status_ID
+JOIN Employees    e  ON o.Employee_ID = e.Employees_ID
+ORDER BY o.Order_ID;
+GO
+
+-- 2. Состав и стоимость каждого заказа
+SELECT
+    ceo.Order_ID             AS [Заказ №],
+    ce.Name                  AS [Сотрудник компании],
+    d.Name                   AS [Блюдо],
+    op.Count                 AS [Кол-во],
+    op.Cost                  AS [Сумма]
+FROM Order_Part op
+JOIN Company_Employees ce      ON op.CompanyEmployees_ID = ce.CompanyEmployees_ID
+JOIN Company_Employees_Order ceo ON ceo.CompanyEmployees_ID = op.CompanyEmployees_ID
+JOIN Dish d                    ON op.Dish_ID = d.Dish_ID
+ORDER BY ceo.Order_ID, op.Dish_ID;
+GO
+
+-- 3. Итоговая сумма по каждому заказу
+SELECT
+    ceo.Order_ID   AS [Заказ №],
+    SUM(op.Cost)   AS [Итого, руб.]
+FROM Order_Part op
+JOIN Company_Employees_Order ceo ON ceo.CompanyEmployees_ID = op.CompanyEmployees_ID
+GROUP BY ceo.Order_ID
+ORDER BY ceo.Order_ID;
+GO
